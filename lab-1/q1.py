@@ -123,6 +123,8 @@ def main():
     visited[st] = 1
     
     dfs(visited, st, 0, end, dfs_costs, n, adj)
+    sorted(dfs_costs)
+    print(dfs_costs[0])
 
     for cost in dfs_costs:
         print(f"{cost} ,", end="")
@@ -131,7 +133,10 @@ def main():
 
     bfs_costs = []
     bfs(adj, bfs_costs, st, end, n)
+    print(bfs_costs)
     print(f"bfs paths: {len(bfs_costs)}")
+    sorted(bfs_costs)
+    print(bfs_costs[0])
 
 if __name__ == "__main__":
     main()
