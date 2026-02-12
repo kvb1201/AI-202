@@ -127,12 +127,3 @@ def best_first_search(graph,start,goal):
 path, cost = best_first_search(graph, start, goal)
 print("Path", path)
 print("Total Cost", cost) 
-
-
-
-     
-
-
-
-
-
