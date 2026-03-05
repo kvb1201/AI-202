@@ -99,6 +99,7 @@ def iterative_deepening_search(problem):
     while True:
         print(f"searching at depth limit= {depth}")
         result = dls(problem,depth)
+        print(result)
 
         if result != "cutoff":
             return result
@@ -123,6 +124,9 @@ def print_solution(node):
     
 if __name__ == "__main__":
     problem = problem()
+    solution = dls(problem,3)
+    print("Solution of dls with limit 3: ",solution)
+
     solution = iterative_deepening_search(problem)
 
     if solution == "Failure":
