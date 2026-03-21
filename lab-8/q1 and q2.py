@@ -16,10 +16,6 @@ cost = [
 n = len(cities)
 
 
-# -------------------------------
-# Tour cost
-# -------------------------------
-
 def tour_cost(t):
     c = 0
     for i in range(n-1):
@@ -28,9 +24,6 @@ def tour_cost(t):
     return c
 
 
-# -------------------------------
-# Neighbor generation
-# -------------------------------
 
 def neighbor(t):
     a,b = random.sample(range(n),2)
@@ -38,10 +31,6 @@ def neighbor(t):
     t[a],t[b] = t[b],t[a]
     return t
 
-
-# ===============================
-# LOCAL BEAM SEARCH
-# ===============================
 
 def beam_search(k, iterations=200):
 
@@ -66,9 +55,6 @@ def beam_search(k, iterations=200):
     return best, tour_cost(best)
 
 
-# ===============================
-# GENETIC ALGORITHM
-# ===============================
 def create_population(size):
     return [random.sample(range(n), n) for _ in range(size)]
 
@@ -78,7 +64,6 @@ def select(pop):
     return pop[:len(pop)//2]
 
 
-# ---- One point crossover ----
 
 def one_point(p1,p2):
 
@@ -93,7 +78,6 @@ def one_point(p1,p2):
     return child
 
 
-# ---- Two point crossover ----
 
 def two_point(p1,p2):
 
@@ -156,9 +140,6 @@ def genetic(crossover="one", generations=200, pop_size=30):
     return best, tour_cost(best)
 
 
-# ===============================
-# MAIN
-# ===============================
 
 print("\nLOCAL BEAM SEARCH\n")
 
