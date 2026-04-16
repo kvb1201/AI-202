@@ -51,7 +51,7 @@ graph = {
     "Bhavnagar": ["Amreli", "Ahmedabad"]
 }
 
-colors = ['r','g', 'b', 'y']
+colors = ['r','g', 'b']
 
 
 def is_safe(node, color, assignment, graph):
