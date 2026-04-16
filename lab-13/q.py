@@ -1,4 +1,16 @@
-import itertools
+# generate all combinations without itertools
+def generate_combinations(n):
+    if n == 0:
+        return [[]]
+    
+    prev = generate_combinations(n - 1)
+    result = []
+    
+    for p in prev:
+        result.append(p + [False])
+        result.append(p + [True])
+    
+    return result
 
 class Symbol:
     def __init__(self, name):
@@ -16,15 +28,61 @@ def IMPLIES(p, q): return (not p) or q
 def IFF(p, q): return p == q
 
 
-# evaluate expressions
+# manual evaluate without using eval
 def evaluate(expr, values):
-    return eval(expr, {
-        "NOT": NOT,
-        "AND": AND,
-        "OR": OR,
-        "IMPLIES": IMPLIES,
-        "IFF": IFF
-    }, values)
+    expr = expr.strip()
+
+    # if variable
+    if expr in values:
+        return values[expr]
+
+    # if NOT
+    if expr.startswith("NOT("):
+        inner = expr[4:-1]
+        return NOT(evaluate(inner, values))
+
+    # function with arguments
+    def split_args(s):
+        args = []
+        depth = 0
+        current = ""
+        for ch in s:
+            if ch == ',' and depth == 0:
+                args.append(current.strip())
+                current = ""
+            else:
+                if ch == '(':
+                    depth += 1
+                elif ch == ')':
+                    depth -= 1
+                current += ch
+        if current:
+            args.append(current.strip())
+        return args
+
+    # AND
+    if expr.startswith("AND("):
+        inner = expr[4:-1]
+        args = split_args(inner)
+        return AND(*[evaluate(a, values) for a in args])
+
+    # OR
+    if expr.startswith("OR("):
+        inner = expr[3:-1]
+        args = split_args(inner)
+        return OR(*[evaluate(a, values) for a in args])
+
+    # IMPLIES
+    if expr.startswith("IMPLIES("):
+        inner = expr[8:-1]
+        p, q = split_args(inner)
+        return IMPLIES(evaluate(p, values), evaluate(q, values))
+
+    # IFF
+    if expr.startswith("IFF("):
+        inner = expr[4:-1]
+        p, q = split_args(inner)
+        return IFF(evaluate(p, values), evaluate(q, values))
 
 
 # print truth table
@@ -33,7 +91,7 @@ def truth_table(expr, symbols):
     print(" | ".join(names) + " | " + expr)
     print("-" * (len(names)*4 + len(expr)))
 
-    for vals in itertools.product([False, True], repeat=len(symbols)):
+    for vals in generate_combinations(len(symbols)):
         env = dict(zip(names, vals))
         result = evaluate(expr, env)
         row = ["T" if v else "F" for v in vals]
