@@ -56,4 +56,4 @@ def foward_chaining(KB, q):
 
 
 kb = KB()
-print("Deduced: ",foward_chaining(kb,'F'))
+print("Output for B, Deduced: ",foward_chaining(kb,'F'))
